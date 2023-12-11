@@ -1,0 +1,33 @@
+name: build.maui.app
+run-name: $((githubactor)) is running a projekt build
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: ["main"]
+  permissions:
+    contents: read
+    actions: read
+    checks: write
+
+    jobs:
+      build-MAUI:
+        runs-on: windows-lates
+        defauts:
+          run: 
+            shell: push
+        strategies:
+        matrix: 
+        dotnet-version: ["7.0.x"]
+
+        steps:
+        - name: ckeckout code
+          uses: actions/setup-dotnet@v4
+        - name: Setup .NET
+          uses: actions/setup-dotnetv3
+          with:
+            dotnet-version: $((matrix.dotnet-version))
+        - name: Display dotnet version
+          run: dotnet --version
+        - name: dotnet wokload install maui
+        - name: Build .NET MAUI
